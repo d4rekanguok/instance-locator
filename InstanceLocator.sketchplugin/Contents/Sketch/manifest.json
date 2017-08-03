@@ -1,13 +1,14 @@
 {
   "author" : "Derek Nguyen",
+  "appcast": "",
   "commands" : [
     {
       "script" : "script.cocoascript",
-      "name" : "InstanceLocator",
+      "name" : "Instance Locator",
       "handlers" : {
         "run" : "onRun"
       },
-      "identifier" : "com.bohemiancoding.sketch.runscriptidentifier"
+      "identifier" : "Run"
     }
   ],
   "menu" : {
@@ -16,9 +17,9 @@
       "com.bohemiancoding.sketch.runscriptidentifier"
     ]
   },
-  "identifier" : "com.example.sketch.44b0d2ed-d6e5-4143-9d51-dd71c00e31e6",
+  "identifier" : "com.example.sketch.instance-locator",
   "version" : "0.0.1",
-  "description" : "",
-  "authorEmail" : "",
-  "name" : "InstanceLocator"
+  "description" : "Locate instance of symbols",
+  "authorEmail" : "derek@penandpillow.com",
+  "name" : "Instance Locator"
 }
