@@ -1,6 +1,6 @@
 {
   "author" : "Derek Nguyen",
-  "appcast": "",
+  "appcast": "https://raw.githubusercontent.com/d4rekanguok/instance-locator/master/version.xml",
   "commands" : [
     {
       "script" : "script.cocoascript",
