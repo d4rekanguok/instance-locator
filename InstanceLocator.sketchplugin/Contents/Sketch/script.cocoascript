@@ -1,0 +1,130 @@
+var getArtboard = function(instance) {
+  var _container = instance.parentGroup()
+  if (_container.class() == 'MSArtboardGroup' || _container.class() == 'MSPage') {
+    return _container
+  } else {
+    return getArtboard(_container)
+  }
+}
+
+var showInstanceList = function(values, selectedItemIndex) {
+  var alert = COSAlertWindow.new()
+  alert.addButtonWithTitle('Jump To Instance')
+  alert.addButtonWithTitle('Cancel')
+  alert.setMessageText('Select an instance')
+
+  var dropdownButton = [[NSPopUpButton alloc] initWithFrame: NSMakeRect(0, 0, 300, 28)]
+  // dropdownButton.completes = true
+  [dropdownButton addItemsWithTitles: values]
+  [dropdownButton selectItemAtIndex: selectedItemIndex]
+  alert.addAccessoryView(dropdownButton)
+
+  var userInput = alert.runModal()
+  if (userInput == "1000") {
+    return alert.viewAtIndex(0)
+  }
+
+  return nil
+}
+
+
+var onRun = function(context) {
+  //search absraction, by the legend github.com/abynim https://medium.com/sketch-app-sources/sketch-plugin-snippets-for-plugin-developers-e9e1d2ab6827
+  var doc = context.document
+
+  var findLayersMatchingPredicate_inContainer_filterByType = function(predicate, container, layerType) {
+    var scope;
+    switch (layerType) {
+      case MSPage:
+        scope = doc.pages()
+        return scope.filteredArrayUsingPredicate(predicate)
+        break;
+
+      case MSArtboardGroup:
+        if (typeof container !== 'undefined' && container != nil) {
+          if (container.className == "MSPage") {
+            scope = container.artboards()
+            return scope.filteredArrayUsingPredicate(predicate)
+          }
+        } else {
+          // search all pages
+          var filteredArray = NSArray.array()
+          var loopPages = doc.pages().objectEnumerator(),
+            page;
+          while (page = loopPages.nextObject()) {
+            scope = page.artboards()
+            filteredArray = filteredArray.arrayByAddingObjectsFromArray(scope.filteredArrayUsingPredicate(predicate))
+          }
+          return filteredArray
+        }
+        break;
+
+      default:
+        if (typeof container !== 'undefined' && container != nil) {
+          scope = container.children()
+          return scope.filteredArrayUsingPredicate(predicate)
+        } else {
+          // search all pages
+          var filteredArray = NSArray.array()
+          var loopPages = doc.pages().objectEnumerator(),
+            page;
+          while (page = loopPages.nextObject()) {
+            scope = page.children()
+            filteredArray = filteredArray.arrayByAddingObjectsFromArray(scope.filteredArrayUsingPredicate(predicate))
+          }
+          return filteredArray
+        }
+    }
+    return NSArray.array() // Return an empty array if no matches were found
+  }
+
+  var findLayers_inContainer_filterByTypeAndSymbolID = function(layerType, symbolID, container) {
+    var predicate = NSPredicate.predicateWithFormat("class == %@ && SELF.symbolMaster.objectID == %@", layerType, symbolID)
+    return findLayersMatchingPredicate_inContainer_filterByType(predicate, container)
+  }
+
+  //taken & adapted from Sketch-Navigator by arshad https://github.com/arshad/Sketch-Navigator
+  var jumpToInstance = function(instanceObj) {
+    var view = doc.currentView(),
+        container = instanceObj.container,
+        instance = instanceObj.instance,
+        rect
+
+    if (container.class() == 'MSPage') {
+      doc.setCurrentPage(container)
+      rect = instance.absoluteRect().rect()
+    } else if (container.class() == 'MSArtboardGroup') {
+      doc.setCurrentPage(container.parentGroup())
+      rect = container.rect()
+    }
+
+    var padding = 0.05
+    rect.origin.x -= rect.size.width * padding
+    rect.origin.y -= rect.size.height * padding
+    rect.size.width *= 1 + padding * 2
+    rect.size.height *= 1 + padding * 2
+    // log(rect)
+    view.zoomToFitRect(rect)
+  }
+
+  var firstSelected = context.selection[0],
+      symbolID = firstSelected.symbolMaster().objectID(),
+      symbolArray = findLayers_inContainer_filterByTypeAndSymbolID(MSSymbolInstance, symbolID),
+      values = [],
+      resultArray = [],
+      selectedItemIndex = 0,
+      len = symbolArray.length
+  for (var i = 0; i < len; i++) {
+    var instance = symbolArray[i],
+        container = getArtboard(instance)
+    instance.objectID() === firstSelected.objectID() ? selectedItemIndex = i : null
+    values.push(container.name().toString() + ' > ' + instance.name().toString())
+    resultArray.push({instance: instance, container: container})
+  }
+  // log(selectedItemIndex)
+  var res = showInstanceList(values, selectedItemIndex)
+  var newIndex = res.indexOfSelectedItem()
+  jumpToInstance(resultArray[newIndex])
+  // select the instance, thanks @turbobabr at http://sketchplugins.com/d/231-programmatically-selecting-layers
+  resultArray[newIndex].instance.select_byExpandingSelection(true, false);
+}

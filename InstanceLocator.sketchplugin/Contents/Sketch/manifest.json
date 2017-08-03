@@ -1,0 +1,24 @@
+{
+  "author" : "Derek Nguyen",
+  "commands" : [
+    {
+      "script" : "script.cocoascript",
+      "name" : "InstanceLocator",
+      "handlers" : {
+        "run" : "onRun"
+      },
+      "identifier" : "com.bohemiancoding.sketch.runscriptidentifier"
+    }
+  ],
+  "menu" : {
+    "title" : "InstanceLocator",
+    "items" : [
+      "com.bohemiancoding.sketch.runscriptidentifier"
+    ]
+  },
+  "identifier" : "com.example.sketch.44b0d2ed-d6e5-4143-9d51-dd71c00e31e6",
+  "version" : "0.0.1",
+  "description" : "",
+  "authorEmail" : "",
+  "name" : "InstanceLocator"
+}
