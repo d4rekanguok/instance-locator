@@ -1,3 +1,5 @@
+![icon](icon.png)
+
 # Instance Locator
 
 A simple [sketch]() plugin that helps locating instances of a selected symbol.

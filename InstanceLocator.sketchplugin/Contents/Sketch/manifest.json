@@ -21,5 +21,6 @@
   "version" : "0.1.1",
   "description" : "Locate instance of symbols",
   "authorEmail" : "derek@penandpillow.com",
-  "name" : "Instance Locator"
+  "name" : "Instance Locator",
+  "icon" : "icons/icon.png"
 }
