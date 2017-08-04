@@ -1,9 +1,17 @@
-var getArtboard = function(instance) {
+var containerMsg = {
+   'MSArtboardGroup' :'Artboard',
+   'MSPage'          :'Page',
+   'MSSymbolMaster'  :'Nested Symbol'
+}
+
+var getContainer = function(instance) {
   var _container = instance.parentGroup()
-  if (_container.class() == 'MSArtboardGroup' || _container.class() == 'MSPage') {
+  if (_container === null || _container === undefined) return null
+  var _class = instance.class()
+  if (_class == 'MSArtboardGroup' || _class == 'MSSymbolMaster' || _class == 'MSPage') {
     return _container
   } else {
-    return getArtboard(_container)
+    return getContainer(_container)
   }
 }
 
@@ -151,9 +159,9 @@ var onRun = function(context) {
 
   for (var i = 0; i < len; i++) {
     var instance = symbolArray[i],
-        container = getArtboard(instance)
+        container = getContainer(instance)
     instance.objectID() === firstSelected.objectID() ? selectedItemIndex = i : null
-    values.push(container.name().toString() + ' > ' + instance.name().toString())
+    values.push('[' + containerMsg[container.class().toString()] + '] ' + container.name().toString() + ' > ' + instance.name().toString())
     resultArray.push({instance: instance, container: container})
   }
   // log(selectedItemIndex)
