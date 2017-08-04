@@ -6,11 +6,11 @@
     <description>Locate instance of symbols</description>
     <language>en</language>
     <item>
-      <title>Version 0.1.3</title>
+      <title>Version 0.1.4</title>
       <description>
         [fix typo] Show amount of instances found and type of container
       </description>
-      <enclosure url="https://github.com/d4rekanguok/instance-locator/archive/master.zip" sparkle:version="0.1.3" />
+      <enclosure url="https://github.com/d4rekanguok/instance-locator/archive/master.zip" sparkle:version="0.1.4" />
     </item>
     <item>
       <title>Version 0.1.2</title>
