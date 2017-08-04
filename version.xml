@@ -6,7 +6,14 @@
     <description>Locate instance of symbols</description>
     <language>en</language>
     <item>
-      <title>Version 0.0.2</title>
+      <title>Version 0.1.1</title>
+      <description>
+        Ask if user want to remove unused symbol
+      </description>
+      <enclosure url="https://github.com/d4rekanguok/instance-locator/archive/master.zip" sparkle:version="0.1.1" />
+    </item>
+    <item>
+      <title>Version 0.1.0</title>
       <description>
         Update to work with symbol itself
       </description>
