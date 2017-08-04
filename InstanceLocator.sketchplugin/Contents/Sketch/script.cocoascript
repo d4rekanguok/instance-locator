@@ -27,6 +27,23 @@ var showInstanceList = function(values, selectedItemIndex) {
   return nil
 }
 
+var showRemoveAlert = function(item, doc) {
+  var alert = COSAlertWindow.new()
+  alert.addButtonWithTitle('Remove this symbol')
+  alert.addButtonWithTitle('Cancel')
+  alert.setMessageText('No instances')
+  alert.setInformativeText('No instances found. Would you like to remove this symbol?')
+
+  var userInput = alert.runModal()
+  if (userInput == "1000") {
+    doc.currentPage().removeLayer_(item)
+    doc.showMessage('Symbol removed.')
+    return nil
+  }
+
+  return nil
+}
+
 
 var onRun = function(context) {
   //search absraction, by the legend github.com/abynim https://medium.com/sketch-app-sources/sketch-plugin-snippets-for-plugin-developers-e9e1d2ab6827
@@ -124,6 +141,12 @@ var onRun = function(context) {
       resultArray = [],
       selectedItemIndex = 0,
       len = symbolArray.length
+
+  if (len == 0){
+    var res = showRemoveAlert(firstSelected, doc)
+    return null
+  }
+
   for (var i = 0; i < len; i++) {
     var instance = symbolArray[i],
         container = getArtboard(instance)
