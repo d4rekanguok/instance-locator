@@ -9,9 +9,11 @@ var getArtboard = function(instance) {
 
 var showInstanceList = function(values, selectedItemIndex) {
   var alert = COSAlertWindow.new()
+  var amount = values.length
   alert.addButtonWithTitle('Jump To Instance')
   alert.addButtonWithTitle('Cancel')
   alert.setMessageText('Select an instance')
+  alert.setInformativeText('Found ' + amount + ' instances.')
 
   var dropdownButton = [[NSPopUpButton alloc] initWithFrame: NSMakeRect(0, 0, 300, 28)]
   // dropdownButton.completes = true
