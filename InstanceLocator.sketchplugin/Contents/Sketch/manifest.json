@@ -8,13 +8,13 @@
       "handlers" : {
         "run" : "onRun"
       },
-      "identifier" : "Run"
+      "identifier" : "runscriptidentifier"
     }
   ],
   "menu" : {
-    "title" : "InstanceLocator",
+    "title" : "Instance Locator",
     "items" : [
-      "com.bohemiancoding.sketch.runscriptidentifier"
+      "runscriptidentifier"
     ]
   },
   "identifier" : "com.example.sketch.instance-locator",
