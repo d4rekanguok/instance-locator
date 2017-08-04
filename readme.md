@@ -15,6 +15,7 @@ Built upon [abynim](github.com/abynim)'s [abstracted search script](https://medi
 #### Todos
 
 - [x] Add messages
+- [ ] Display a different alert if symbol is not being used anywhere
 - [ ] Group instances by container
 - [ ] Show amount of instances in each container
 - [ ] Use a scroll list instead of dropdown
