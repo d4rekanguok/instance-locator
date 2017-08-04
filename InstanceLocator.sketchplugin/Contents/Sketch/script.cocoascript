@@ -107,9 +107,19 @@ var onRun = function(context) {
     view.zoomToFitRect(rect)
   }
 
-  var firstSelected = context.selection[0],
-      symbolID = firstSelected.symbolMaster().objectID(),
-      symbolArray = findLayers_inContainer_filterByTypeAndSymbolID(MSSymbolInstance, symbolID),
+  var firstSelected = context.selection[0]
+
+  var symbolID
+  if (firstSelected.class() == 'MSSymbolMaster'){
+    symbolID = firstSelected.objectID()
+  } else if (firstSelected.class() == 'MSSymbolInstance'){
+    symbolID = firstSelected.symbolMaster().objectID()
+  } else {
+    doc.showMessage('Pease select a symbol or an instance of a symbol')
+    return null
+  }
+
+  var symbolArray = findLayers_inContainer_filterByTypeAndSymbolID(MSSymbolInstance, symbolID),
       values = [],
       resultArray = [],
       selectedItemIndex = 0,
