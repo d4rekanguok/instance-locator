@@ -2,7 +2,7 @@
 
 # Instance Locator
 
-A simple [sketch]() plugin that helps locating instances of a selected symbol.
+A simple [sketch](https://sketchapp.com/) plugin that helps locating instances of a selected symbol.
 
 #### How it works
 
@@ -19,7 +19,7 @@ Built upon [abynim](github.com/abynim)'s [abstracted search script](https://medi
 - [x] Add messages
 - [x] Display a different alert if symbol is not being used anywhere
 - [x] Ask user if they want to remove the symbol
-- [ ] Check if it is used in another symbol (nested)
+- [x] Check if it is used in another symbol (nested)
 - [ ] Group instances by container
 - [ ] Show amount of instances in each container
 - [ ] Use a scroll list instead of dropdown
