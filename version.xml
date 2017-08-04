@@ -5,6 +5,13 @@
     <link>https://github.com/d4rekanguok/instance-locator</link>
     <description>Locate instance of symbols</description>
     <language>en</language>
+    <item>
+      <title>Version 0.0.2</title>
+      <description>
+        Update to work with symbol itself
+      </description>
+      <enclosure url="https://github.com/d4rekanguok/instance-locator/archive/master.zip" sparkle:version="0.1.0" />
+    </item>
       <item>
         <title>Version 0.0.2</title>
         <description>

@@ -14,7 +14,7 @@ Built upon [abynim](github.com/abynim)'s [abstracted search script](https://medi
 
 #### Todos
 
-- [ ] Add messages
+- [x] Add messages
 - [ ] Group instances by container
 - [ ] Show amount of instances in each container
 - [ ] Use a scroll list instead of dropdown

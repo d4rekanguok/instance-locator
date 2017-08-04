@@ -18,7 +18,7 @@
     ]
   },
   "identifier" : "com.example.sketch.instance-locator",
-  "version" : "0.0.2",
+  "version" : "0.1.0",
   "description" : "Locate instance of symbols",
   "authorEmail" : "derek@penandpillow.com",
   "name" : "Instance Locator"
