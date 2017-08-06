@@ -161,7 +161,7 @@ var onRun = function(context) {
     var instance = symbolArray[i],
         container = getContainer(instance)
     instance.objectID() === firstSelected.objectID() ? selectedItemIndex = i : null
-    values.push('[' + containerMsg[container.class().toString()] + '] ' + container.name().toString() + ' > ' + instance.name().toString())
+    values.push('[' + containerMsg[container.class()] + '] ' + container.name() + ' > ' + instance.name())
     resultArray.push({instance: instance, container: container})
   }
   // log(selectedItemIndex)
