@@ -1,8 +1,12 @@
-![icon](icon.png)
+![icon](InstanceLocator.sketchplugin/Contents/Resources/icon.png)
 
 # Instance Locator
 
 A simple [sketch](https://sketchapp.com/) plugin that helps locating instances of a selected symbol.
+
+<a href="http://bit.ly/SketchRunnerWebsite">
+  <img width="128" src="http://bit.ly/RunnerBadgeWhite">
+</a>
 
 #### How it works
 

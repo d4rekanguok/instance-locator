@@ -4,15 +4,18 @@
   "commands" : [
     {
       "script" : "script.cocoascript",
-      "name" : "Instance Locator",
+      "name" : "Locate Instances",
       "handlers" : {
         "run" : "onRun"
       },
-      "identifier" : "runscriptidentifier"
+      "identifier" : "runscriptidentifier",
+      "icon" : "icon.png",
+      "description" : "Locate instances of this symbol/instance"
+
     }
   ],
   "menu" : {
-    "title" : "Instance Locator",
+    "title" : "Locate Instance",
     "items" : [
       "runscriptidentifier"
     ]
@@ -21,6 +24,5 @@
   "version" : "0.1.4",
   "description" : "Locate instance of symbols",
   "authorEmail" : "derek@penandpillow.com",
-  "name" : "Instance Locator",
-  "icon" : "icons/icon.png"
+  "name" : "Instance Locator"
 }
