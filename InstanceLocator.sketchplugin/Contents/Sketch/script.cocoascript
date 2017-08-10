@@ -24,8 +24,14 @@ var showInstanceList = function(values, selectedItemIndex) {
   alert.setInformativeText('Found ' + amount + ' instances.')
 
   var dropdownButton = [[NSPopUpButton alloc] initWithFrame: NSMakeRect(0, 0, 300, 28)]
-  // dropdownButton.completes = true
-  [dropdownButton addItemsWithTitles: values]
+  // [dropdownButton addItemsWithTitles: values]
+  var menu = dropdownButton.menu()
+  log(menu)
+  values.forEach(function(value){
+    log(value)
+    [menu addItemWithTitle:value action:nil keyEquivalent: @""]
+  })
+
   [dropdownButton selectItemAtIndex: selectedItemIndex]
   alert.addAccessoryView(dropdownButton)
 
@@ -160,12 +166,13 @@ var onRun = function(context) {
   for (var i = 0; i < len; i++) {
     var instance = symbolArray[i],
         container = getContainer(instance)
+    // log(container)
     instance.objectID() === firstSelected.objectID() ? selectedItemIndex = i : null
     values.push('[' + containerMsg[container.class()] + '] ' + container.name() + ' > ' + instance.name())
     resultArray.push({instance: instance, container: container})
   }
-  // log(selectedItemIndex)
   var res = showInstanceList(values, selectedItemIndex)
+
   var newIndex = res.indexOfSelectedItem()
   jumpToInstance(resultArray[newIndex])
   // select the instance, thanks @turbobabr at http://sketchplugins.com/d/231-programmatically-selecting-layers
