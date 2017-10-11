@@ -111,8 +111,8 @@ var onRun = function(context) {
     return NSArray.array() // Return an empty array if no matches were found
   }
 
-  var findLayers_inContainer_filterByTypeAndSymbolID = function(layerType, symbolID, container) {
-    var predicate = NSPredicate.predicateWithFormat("class == %@ && SELF.symbolMaster.objectID == %@", layerType, symbolID)
+  var findSymbolInstance = function(layerType, symbolID, container) {
+    var predicate = NSPredicate.predicateWithFormat("class == %@ && SELF.symbolID == %@", layerType, symbolID)
     return findLayersMatchingPredicate_inContainer_filterByType(predicate, container)
   }
 
@@ -140,19 +140,18 @@ var onRun = function(context) {
     view.zoomToFitRect(rect)
   }
 
-  var firstSelected = context.selection[0]
+  var firstSelected = context.selection[0],
+      objectID = firstSelected.objectID()
 
   var symbolID
-  if (firstSelected.class() == 'MSSymbolMaster'){
-    symbolID = firstSelected.objectID()
-  } else if (firstSelected.class() == 'MSSymbolInstance'){
-    symbolID = firstSelected.symbolMaster().objectID()
+  if (firstSelected.class() == 'MSSymbolMaster' || firstSelected.class() == 'MSSymbolInstance'){
+    symbolID = firstSelected.symbolID()
   } else {
     doc.showMessage('Pease select a symbol or an instance of a symbol')
     return null
   }
 
-  var symbolArray = findLayers_inContainer_filterByTypeAndSymbolID(MSSymbolInstance, symbolID),
+  var symbolArray = findSymbolInstance(MSSymbolInstance, symbolID),
       values = [],
       resultArray = [],
       selectedItemIndex = 0,
@@ -166,9 +165,24 @@ var onRun = function(context) {
   for (var i = 0; i < len; i++) {
     var instance = symbolArray[i],
         container = getContainer(instance)
+
+    // if container is a symbolMaster, check all its instance. if instance is not overriden, then we add the instance in the list.
+    if (container.class() == "MSSymbolMaster"){
+        var nestedSymbolMasterArray = findSymbolInstance(MSSymbolInstance, container.symbolID())
+        for (var j = 0; j < nestedSymbolMasterArray.length; j++){
+          nestedSymbolInstance = nestedSymbolMasterArray[j];
+          if (nestedSymbolInstance.overrides() == null || !nestedSymbolInstance.overrides().allKeys().containsObject(instance.objectID())){
+            nestedSymbolContainer = getContainer(nestedSymbolInstance);
+            values.push('[Nested Symbol Instance] ' + nestedSymbolContainer.name() +' / ' + nestedSymbolInstance.name())
+            resultArray.push({instance: nestedSymbolInstance, container: nestedSymbolContainer})
+          }
+        }
+    }
+
     // log(container)
+    // select the current item in the result dropdown
     instance.objectID() === firstSelected.objectID() ? selectedItemIndex = i : null
-    values.push('[' + containerMsg[container.class()] + '] ' + container.name() + ' > ' + instance.name())
+    values.push('[' + containerMsg[container.class()] + '] ' + container.name() + ' / ' + instance.name())
     resultArray.push({instance: instance, container: container})
   }
   var res = showInstanceList(values, selectedItemIndex)
