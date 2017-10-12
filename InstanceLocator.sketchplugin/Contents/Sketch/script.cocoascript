@@ -162,21 +162,39 @@ var onRun = function(context) {
     return null
   }
 
+  // recursively check override dict. Need to find the first nested symbolID then compare symbolID!
+  function searchOverride(dict){
+    if (dict.allKeys().containsObject(firstNestedSymbolObjectID)){
+      // check if symbolID === symbolID
+    } else {
+      searchOverride(dict[firstNestedSymbolObjectID])
+    }
+
+  }
+
+  // recursively search for nested symbol
+  function searchSymbol(instance, container) {
+    var nestedSymbolMasterArray = findSymbolInstance(MSSymbolInstance, container.symbolID())
+    for (var j = 0; j < nestedSymbolMasterArray.length; j++){
+      nestedSymbolInstance = nestedSymbolMasterArray[j];
+      if (nestedSymbolInstance.overrides() == null || !nestedSymbolInstance.overrides().allKeys().containsObject(instance.objectID())){
+        nestedSymbolContainer = getContainer(nestedSymbolInstance);
+        if (nestedSymbolContainer.class() == "MSSymbolMaster"){ searchSymbol(nestedSymbolInstance, nestedSymbolContainer); } else {
+          values.push('[Nested Symbol Instance] ' + nestedSymbolContainer.name() +' / ' + nestedSymbolInstance.name())
+          resultArray.push({instance: nestedSymbolInstance, container: nestedSymbolContainer})
+        }
+      }
+    }
+  }
+
   for (var i = 0; i < len; i++) {
     var instance = symbolArray[i],
         container = getContainer(instance)
 
     // if container is a symbolMaster, check all its instance. if instance is not overriden, then we add the instance in the list.
     if (container.class() == "MSSymbolMaster"){
-        var nestedSymbolMasterArray = findSymbolInstance(MSSymbolInstance, container.symbolID())
-        for (var j = 0; j < nestedSymbolMasterArray.length; j++){
-          nestedSymbolInstance = nestedSymbolMasterArray[j];
-          if (nestedSymbolInstance.overrides() == null || !nestedSymbolInstance.overrides().allKeys().containsObject(instance.objectID())){
-            nestedSymbolContainer = getContainer(nestedSymbolInstance);
-            values.push('[Nested Symbol Instance] ' + nestedSymbolContainer.name() +' / ' + nestedSymbolInstance.name())
-            resultArray.push({instance: nestedSymbolInstance, container: nestedSymbolContainer})
-          }
-        }
+      var firstNestedSymbolObjectID = instance.objectID();
+      searchSymbol(instance, container);
     }
 
     // log(container)
