@@ -1,3 +1,9 @@
+# Unmaintained
+
+Please consider using Jason's [Symbol Instance Locator](https://github.com/sonburn/symbol-instance-locator) which does everything this plugin does and more! Thank you.
+
+-------
+
 ![icon](InstanceLocator.sketchplugin/Contents/Resources/icon.png)
 
 # Instance Locator
